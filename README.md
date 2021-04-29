@@ -23,8 +23,8 @@ exit の前に
 
 /opt/bme280.php
 ```
-WEB
-apache の場合
+WEB<br/>
+(apache の場合)
 
 ```
 html/* を /var/www/html/*
