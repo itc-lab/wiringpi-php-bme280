@@ -1,26 +1,25 @@
 WiringPi-php-bme280
 ========
-BME280 ‚Å‰·“xEŽ¼“xE‹Cˆ³E‹‚³Žw”‚ð•\Ž¦‚·‚é
+BME280 ã§æ¸©åº¦ãƒ»æ¹¿åº¦ãƒ»æ°—åœ§ãƒ»æš‘ã•æŒ‡æ•°ã‚’è¡¨ç¤ºã™ã‚‹
 
-```
 /opt/bme280.php
 
-‹N“®
+èµ·å‹•
 ```
 cd /opt
 ./bme280.php
 ```
-’âŽ~
+
+åœæ­¢
 ```
 cd /opt
 ./bme280.php stop
 ```
-Ž©“®‹N“®
 
-vi /etc/rc.local
-exit ‚Ì‘O‚É
+è‡ªå‹•èµ·å‹•
 ```
+vi /etc/rc.local
+exit ã®å‰ã«
+
 /opt/bme280.php
 ```
-
-
