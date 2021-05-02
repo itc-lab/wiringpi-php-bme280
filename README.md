@@ -30,4 +30,5 @@ WEB<br/>
 ```
 html/* を /var/www/html/*
 chmod -R 0644 /var/www/html/*
+chmod 0755 /var/www/html/js
 ```
