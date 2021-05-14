@@ -11,7 +11,7 @@
 //<!--
 
 	var rooms = [];
-	var timerId = null;
+	var timerId = [];
 
 	$( function() {
 		$.getJSON( './rooms.json', (data) => {
@@ -59,8 +59,8 @@
 								function( response ) {
 									//console.log( response );
 									plotdata( no, response );
-									if ( timerId ) clearTimeout( timerId );
-									timerId = setTimeout( function() {
+									if ( timerId[no] ) clearTimeout( timerId[no] );
+									timerId[no] = setTimeout( function() {
 													$( '#filelist' + no ).trigger( 'change' )
 												},	240000 );
 								},
