@@ -1,6 +1,6 @@
 複数測定データの一括表示
 ============
-![bme280s](https://user-images.githubusercontent.com/76575923/117416962-da543f00-af54-11eb-96e4-b2c532e57921.png)
+![bme280s](https://user-images.githubusercontent.com/76575923/120968278-9cd91080-c7a3-11eb-95b6-d9322c7146fc.jpg)
 
 複数サイトを１画面に表示すると XSS になるので、１サーバー経由で表示
 
