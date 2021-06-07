@@ -78,9 +78,6 @@
 						data,
 						function( response ) {
 							console.log( response );
-							$( '#temp' ).text( response.temp );
-							$( '#humid' ).text( response.humid );
-							$( '#press' ).text( response.press );
 							//	日生気誌 50(4):147-157, 2014
 							//	通常観測気象要素を用いた WBGT（湿球黒球温度）の推定
 							//	風速・全天日射量は０とする
@@ -109,10 +106,22 @@
 							wbgt += '00';
 							var pos = wbgt.indexOf( '.' );
 							wbgt = wbgt.substring( 0, pos + 3 );
-							$( '#wbgt' ).text( wbgt );
-							$( '#wbgt' ).parent().css( 'background-color', back );
-							$( '#wbgt' ).css( 'color', color );
-							$( '#wbgt' ).attr( 'title', title );
+							$( '#temp' ).text( response.temp );
+							$( '#humid' ).text( response.humid );
+							$( '#press' ).text( response.press );
+							if ( true ) {
+								$( '#wbgt' ).text( title );
+								////$( '#wbgt' ).parent().css( 'background-color', back );
+								$( '#wbgt' ).css( 'background-color', back );
+								$( '#wbgt' ).css( 'color', color );
+								$( '#wbgt' ).attr( 'title', wbgt + '℃' );
+							} else {
+								$( '#wbgt' ).text( wbgt );
+								////$( '#wbgt' ).parent().css( 'background-color', back );
+								$( '#wbgt' ).css( 'background-color', back );
+								$( '#wbgt' ).css( 'color', color );
+								$( '#wbgt' ).attr( 'title', title );
+							}
 							setTimeout( function() {
 											getcurrent();
 										}, 2000 );
@@ -166,8 +175,8 @@
 				},
 				{
 					panRange: false,
-					min: 995,
-					max: 1020,
+					min: 990,
+					max: 1015,
 					alignTicksWithAxis: "right",
 					position: "right",
 					tickFormatter: function( val, axis ) {
@@ -230,41 +239,70 @@
 <style type="text/css">
 <!--
 	body {
-		font-size: 14px;
-/*		background-color: #D4D0AA;	/**/
+		font-size: 12px;
+		background-color: #eee;	/**/
 		color: black;
-		margin: 0;
-		padding: 2;
+		margin: 2;
+	}
+	select {
+		font-size: 10px;
+	}
+	input[type="button"] {
+		font-size: 10px;
+	}
+	table {
+		font-size: 12px;
+	}
+	th {
+		white-space: nowrap;
+		font-size: 14px;
+		padding-left: 4px;
+		background-color: white;
+	}
+	td {
+		white-space: nowrap;
+		padding-left: 4px;
+		padding-right: 4px;
+		background-color: white;
+	}
+	.roomname {
+		color: blue;
+	}
+	.realtitle {
+		text-align: right;
+	}
+	.realvalue {
+		text-align: right;
+		font-weight: bold;
+		white-space: nowrap;
+		font-size: 24px;
+	}
+	*[id^='wbgt']{
+		padding: 4px 12px;
+		text-align: center;
 	}
 -->
 </style>
 </head>
 <body>
-<table border=0>
+<table border=1 cellpadding=0 cellspacing=0>
+<thead></thead>
+<tbody id="tbody">
 <tr>
-<td><table border=1 cellpadding=2 cellspacing=0>
-<tr style="font-size:14px;">
-<th>温度(℃)</th>
-<th>湿度(％)</th>
-<th>暑さ指数(℃)</th>
-<th>気圧(hPa)</th>
+<td valign=top>
+<table height=246 border=0 cellpadding=0 cellspacing=0>
+<tr><th class="realtitle">温度(℃)</th><td class="realvalue"> &nbsp;<span id="temp"></span> &nbsp;</td></tr>
+<tr><th class="realtitle">湿度(％)</th><td class="realvalue"> &nbsp;<span id="humid"></span> &nbsp;</td></tr>
+<tr><th class="realtitle">暑さ指数</th><td class="realvalue"> &nbsp;<span id="wbgt"></span> &nbsp;</td></tr>
+<tr><th class="realtitle">気圧(hPa)</th><td class="realvalue"> &nbsp;<span id="press"></span> &nbsp;</td></tr>
+<!--tr><th class="realtitle">CO<sub>2</sub>(ppm)</th><td class="realvalue"> &nbsp;<span id="co2"></span> &nbsp;</td></tr-->
+</table>
+</td>
+<td><select id="filelist"></select>&nbsp; &nbsp; <input type="button" id="prev" value="前日">
+<input type="button" id="next" value="翌日"><br/>
+<div id="graph" style="font-size:10px;width:600px;height:220px"></div></td>
 </tr>
-<tr style="font-size:24px; font-weight:bold;">
-<td> &nbsp;<span id="temp"></span> &nbsp;</td>
-<td> &nbsp;<span id="humid"></span> &nbsp;</td>
-<td> &nbsp;<span id="wbgt"></span> &nbsp;</td>
-<td> &nbsp;<span id="press"></span> &nbsp;</td>
-</tr>
-</table></td>
-</tr>
-<tr>
-<td><br/><select
-	id="filelist"></select>&nbsp; &nbsp; <input type="button" id="prev" value="前日"><input
-	type="button" id="next" value="翌日"></td>
-</tr>
-<tr>
-<td><div id="graph" style="width:800px;height:400px"></div></td>
-</tr>
+</tbody>
 </table>
 </body>
 </html>
