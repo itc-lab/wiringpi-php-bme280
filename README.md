@@ -1,7 +1,7 @@
 WiringPi-php-bme280
 ========
 BME280 で温度・湿度・気圧・暑さ指数を表示
-![bme280-2](https://user-images.githubusercontent.com/76575923/116584436-4da4f200-a952-11eb-8e2c-dab214d42bab.jpg)
+![bme280](https://user-images.githubusercontent.com/76575923/120967884-0efd2580-c7a3-11eb-9433-9c1f2168d01a.jpg)
 
 ```
 /opt/bme280.php
