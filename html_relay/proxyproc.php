@@ -41,14 +41,7 @@
 			static $start_body = false;
 			static $save = "";
 			if ( $start_body ) {
-				if ( !empty( $GLOBALS["CHUNKED"] ) ) {
-					printf( "%x\r\n", strlen( $buffer ) );
-				}
 				echo $buffer;
-				if ( !empty( $GLOBALS["CHUNKED"] ) ) {
-					echo "\r\n";
-				}
-				flush();
 				return $ln;
 			}
 			$buffer = $save . $buffer;
@@ -65,21 +58,14 @@
 					}
 					if ( $start_head ) {
 						if ( preg_match( "/^Transfer\-Encoding\:\s+chunked/i", $head ) ) {
-							$GLOBALS["CHUNKED"] = true;
+						} else {
+							header( $head );
 						}
-						header( $head );
 					}
 				} else if ( $start_head ) {
 					$start_body = true;
 					if ( $buffer != "" ) {
-						if ( !empty( $GLOBALS["CHUNKED"] ) ) {
-							printf( "%x\r\n", strlen( $buffer ) );
-						}
 						echo $buffer;
-						if ( !empty( $GLOBALS["CHUNKED"] ) ) {
-							echo "\r\n";
-						}
-						flush();
 					}
 				}
 				if ( $start_body ) break;
@@ -95,10 +81,6 @@
 			header( 'HTTP', true, 403 );
 			echo "Could not connect to server\n'{$_REQUEST["REQUEST_URL"]}'\r\n";
 			exit;
-		}
-		if ( !empty( $GLOBALS["CHUNKED"] ) ) {
-			echo "0\r\n";
-			echo "\r\n";
 		}
 		curl_close( $ch );
 	}
