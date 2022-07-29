@@ -32,6 +32,12 @@
 		}
 
 		function readData() {
+			$this->set_power_mode( true );
+			while( 1 ) {
+				$stat = WiringPi::wiringPiI2CReadReg8( $this->fd, 0xf3 );
+				if ( !( $stat & 0x40 ) ) break;
+				usleep( 10000 );
+			}
 			$data = array();
 			for ( $reg = 0xf7; $reg <= 0xff; $reg ++ ) {
 				array_push( $data, WiringPi::wiringPiI2CReadReg8( $this->fd, $reg ) );
@@ -92,16 +98,26 @@
 			$osrs_t		= 2;		//	Temperature oversampling x 2
 			$osrs_p		= 2;		//	Pressure oversampling x 2
 			$osrs_h		= 2;		//	Humidity oversampling x 2
-			$mode		= 3;		//	Normal mode
+			$mode		= 0;		//	Sleep mode
 			$t_sb		= 5;		//	Tstandby 1000ms
+			//$t_sb		= 2;		//	Tstandby 125ms
 			$filter		= 0;		//	Filter off
 			$spi3w_en	= 0;		//	3-wire SPI Disable
-			$ctrl_meas_reg	= ( $osrs_t << 5 ) | ( $osrs_p << 2 ) | $mode;
-			$config_reg		= ( $t_sb << 5 ) | ( $filter << 2 ) | $spi3w_en;
-			$ctrl_hum_reg	= $osrs_h;
-			WiringPi::wiringPiI2CWriteReg8( $this->fd, 0xf2, $ctrl_hum_reg );
-			WiringPi::wiringPiI2CWriteReg8( $this->fd, 0xf4, $ctrl_meas_reg );
-			WiringPi::wiringPiI2CWriteReg8( $this->fd, 0xf5, $config_reg );
+			$this->ctrl_meas_reg	= ( $osrs_t << 5 ) | ( $osrs_p << 2 ) | $mode;
+			$this->config_reg		= ( $t_sb << 5 ) | ( $filter << 2 ) | $spi3w_en;
+			$this->ctrl_hum_reg		= $osrs_h;
+			WiringPi::wiringPiI2CWriteReg8( $this->fd, 0xf2, $this->ctrl_hum_reg );
+			WiringPi::wiringPiI2CWriteReg8( $this->fd, 0xf4, $this->ctrl_meas_reg );
+			WiringPi::wiringPiI2CWriteReg8( $this->fd, 0xf5, $this->config_reg );
+		}
+
+		function set_power_mode( $forced ) {
+			$this->ctrl_meas_reg &= 0xfc;
+			if ( $forced ) {
+				$this->ctrl_meas_reg |= 0x01;
+			}
+			WiringPi::wiringPiI2CWriteReg8( $this->fd, 0xf4, $this->ctrl_meas_reg );
+			//echo $this->ctrl_meas_reg  ."\n";
 		}
 
 		function calibrate() {
